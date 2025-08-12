@@ -1,7 +1,8 @@
 # QSAR Model for Predicting Antioxidant Activity
-- This repository contains the full pipeline for developing five machine learning-based QSAR (Quantitative Structure–Activity Relationship) model to classify antioxidant compounds. The workflow includes data preprocessing, molecular descriptor calculation and processing, feature selection, model training, performance evaluation, and external validation using the ZINC Natural Products dataset with the final model.
----
 
+This repository contains the full pipeline for developing five machine learning-based QSAR (Quantitative Structure–Activity Relationship) model to classify antioxidant compounds. The workflow includes data preprocessing, molecular descriptor calculation and processing, feature selection, model training, performance evaluation, and external validation using the ZINC Natural Products dataset with the final model.
+
+---
 ##  Project Overview
 - Objective: Build a robust binary classification model to predict antioxidant activity.
 - Approach: Train models on a balanced dataset via resampling, evaluate them using cross-validation and test set, and validate generalizability using external ZINC compounds.
