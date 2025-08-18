@@ -48,14 +48,106 @@ This repository contains the full pipeline for developing five machine learning-
        - Output
          - Data/03_Model_training/02_Output/best_hyperparameters.csv : Optimal hyperparameters for each machine learning model.
          - Data/03_Model_training/02_Output/performance_scores.csv : Performance metrics (Accuracy, AUC, F1-score, MCC, Specificity) for each model.
+         - Data/03_Model_training/02_Output/Top51_Descriptors.txt : The final selected top 51 descriptors.
    - External_validation
        - Remove_duplication_NaN
-         - Data/04_External_validation/01_Remove_duplication_NaN/ZINC_Natural_Products_ADMET_5810.smi : 
+         - Data/04_External_validation/01_Remove_duplication_NaN/ZINC_Natural_Products_ADMET_5810.smi : ZINC Natural Products ADMET dataset after removing duplicates and NaN values.
        - Filtered_metal_ions
-         - Data/04_External_validation/02_Filtered_metal_ions/ZINC_Natural_Products_ADMET_filtered.smi :
+         - Data/04_External_validation/02_Filtered_metal_ions/ZINC_Natural_Products_ADMET_filtered.smi : ZINC dataset after filtering out compounds containing metal ions.
        - Calculated_descriptors
-         - Data/04_External_validation/03_Calculated_descriptors/ZINC_external_des_5810.csv :
+         - Data/04_External_validation/03_Calculated_descriptors/ZINC_external_des_5810.csv : Molecular descriptors calculated from the cleaned ZINC dataset.
        - Processed_descriptors
-         - Data/04_External_validation/04_Processed_descriptors/ZINC_external_5790.csv :
+         - Data/04_External_validation/04_Processed_descriptors/ZINC_external_5790.csv : Final processed descriptor dataset after removing duplicates and NaN values.
        - Validation_final_model
-         - Data/04_external_validation/05_Validation_final_model/ZINC_external_predictions_XGB51.csv :   
+         - Data/04_External_validation/05_Validation_final_model/ZINC_external_predictions_XGB51.csv : Prediction results from the final model (XGBoost Top51) applied to the ZINC dataset.  
+   - Without_resampled_strategy
+       - Output
+         - Data/05_Without_resampled_strategy/01_Output/best_hyperparameters_with_rawdata.csv : Best hyperparameters obtained using the full unbalanced dataset (without resampling).
+         - Data/05_Without_resampled_strategy/01_Output/performance_scores_with_rawdata.csv : Performance metrics from training without resampling strategy for robustness testing.
+### 2. Model
+  - XGBoost_Top51_model.pkl :
+    - Final trained model (XGBoost classifier with Top 51 selected descriptors) used for prediction and external validation.
+### 3. Notebooks
+  - 01_Data_preprocessing&Resampling.ipynb
+  - 02_Feature_selection.ipynb
+  - 03_Model_training_validation.ipynb
+  - 04_Validation_without_resampled.ipynb
+---
+
+## How to Run
+### 1. Environment Setup
+- Install the required Python libraries:
+```
+pip install -r Requirements.txt
+```
+  - The required library dependencies for this project are listed below:
+```
+pandas==1.5.3
+numpy==1.23.5
+scikit-learn==1.2.2
+xgboost==1.7.4
+matplotlib==3.7.1
+joblib==1.2.0
+openpyxl==3.1.5
+padelpy==0.1.16
+```
+**Note:**
+- **PadelPy** requires Java Runtime Environment (JRE) to be installed on your system.
+- To check Java installation:
+```
+    java -version
+```
+- If Java is not installed:
+  - **Linux**:`sudo apt-get install default-jre` 
+  - **Windows**: Download from Java.com
+
+### 2. Data preprocessing and Resampled dataset
+Preprocessing of raw data, removal of duplicates/NaN, filtering metal-containing compounds, calculating molecular descriptors, and generating balanced training sets through resampling.
+```
+Notebooks/01_Data_preprocessing&Resampling.ipynb
+```
+### 3. Feature Selection
+Feature importance calculation using Random Forest and selection of optimal descriptor subsets via elbow-point method.
+```
+Notebooks/02_Feature_selection.ipynb
+```
+### 4. Model Training and Validation
+Model training and evaluation with resampled datasets, including hyperparameter optimization, performance assessment (ACC, AUC, F1, MCC, Specificity),  
+and **external validation using the ZINC Natural Products dataset** with the final XGBoost_Top51 model.
+```
+Notebooks/03_Model_training_validation.ipynb
+```
+### 5. Validation of Non-resampled strategy
+Alternative validation strategy where the model is trained and evaluated **without resampling**, using the entire negative pool directly.  
+This test ensures the robustness of the proposed resampling strategy by comparing performance under unbalanced conditions.
+```
+Notebooks/04_Validation_without_Resampled.ipynb
+```
+### 6. Compound Screening
+Use the trained model to screen new compounds.
+```
+import joblib
+import pandas as pd
+
+# Load saved model
+final_model = joblib.load("XGBoost_Top51_model.pkl")
+
+# Load selected descriptor names
+with open("Top51_descriptors.txt", "r") as f:
+    top_51_features = [line.strip() for line in f]
+
+# Load screening data and filtered data
+screening_data = pd.read_csv('screening_data.csv')
+screening_data_with_Top51_descriptors = screening_data[top_51_features]
+
+# Predict probabilities and classes
+screening_data["Predicted_Probability"] = final_model.predict_proba(screening_data_with_Top51_descriptors)[:, 1]
+screening_data["Predicted_Class"] = final_model.predict(screening_data_with_Top51_descriptors)
+
+# Sort by predicted probability
+screening_df = screening_data[["Predicted_Probability", "Predicted_Class"]]
+screening_df = screening_df.sort_values(by="Predicted_Probability", ascending=False)
+
+# Save results
+screening_df.to_csv("Screening_predictions_XGB51.csv")
+```
