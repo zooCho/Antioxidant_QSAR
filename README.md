@@ -18,7 +18,7 @@ This repository contains the full pipeline for developing five machine learning-
 - Final Model: "XGboost classifier with the Top 51 descriptors"  
 ---
 
-## Components description
+## Components Description
 ### 1. Data
    - Raw data
        - Data/01_Raw/20231011-L6500-Antioxidant-Compound-Library-96-well.xlsx : known antioxidant compounds ( positive).
