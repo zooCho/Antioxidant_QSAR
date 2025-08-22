@@ -82,14 +82,21 @@ pip install -r Requirements.txt
 ```
   - The required library dependencies for this project are listed below:
 ```
-pandas==1.5.3
-numpy==1.23.5
-scikit-learn==1.2.2
-xgboost==1.7.4
+pandas==2.2.3
+numpy==2.2.2
+matplotlib==3.10.0
+scikit-learn==1.6.1
+kneed==0.8.5
+xgboost==2.1.4
 matplotlib==3.7.1
 joblib==1.2.0
 openpyxl==3.1.5
 padelpy==0.1.16
+java==11.0.27
+python==3.13.1
+seaborn==0.13.2
+statsmodels==0.14.4
+standardscaler==0.5
 ```
 **Note:**
 - **PadelPy** requires Java Runtime Environment (JRE) to be installed on your system.
@@ -101,28 +108,32 @@ padelpy==0.1.16
   - **Linux**:`sudo apt-get install default-jre` 
   - **Windows**: Download from Java.com
 
-### 2. Data preprocessing and Resampled dataset
+### 2. Data preprocessing & Resampling
 Preprocessing of raw data, removal of duplicates/NaN, filtering metal-containing compounds, calculating molecular descriptors, and generating balanced training sets through resampling.
-```
-Notebooks/01_Data_preprocessing&Resampling.ipynb
-```
+- Run: Notebooks/01_Data_preprocessing&Resampling.ipynb
+
 ### 3. Feature Selection
 Feature importance calculation using Random Forest and selection of optimal descriptor subsets via elbow-point method.
-```
-Notebooks/02_Feature_selection.ipynb
-```
-### 4. Model Training and Validation
+- Run: Notebooks/02_Feature_selection.ipynb
+- Output: Top51_descriptors.txt
+
+### 4. Model Training & Validation (+ ZINC external)
 Model training and evaluation with resampled datasets, including hyperparameter optimization, performance assessment (ACC, AUC, F1, MCC, Specificity),  
 and **external validation using the ZINC Natural Products dataset** with the final XGBoost_Top51 model.
-```
-Notebooks/03_Model_training_validation.ipynb
-```
-### 5. Validation of Non-resampled strategy
+- Run: Notebooks/03_Model_training_validation.ipynb
+- Outputs:
+  -  best_hyperparameters.csv, performance_scores.csv
+  -  XGBoost_Top51_model.pkl
+  -  ZINC_external_predictions_XGB51.csv
+  
+### 5. Validation without resampled strategy
 Alternative validation strategy where the model is trained and evaluated **without resampling**, using the entire negative pool directly.  
 This test ensures the robustness of the proposed resampling strategy by comparing performance under unbalanced conditions.
-```
-Notebooks/04_Validation_without_Resampled.ipynb
-```
+- Run: Notebooks/04_Validation_without_Resampled.ipynb
+- Outputs:
+  - best_hyperparameters_with_rawdata.csv
+  - performance_scores_with_rawdata.csv
+
 ### 6. Compound Screening
 Use the trained model to screen new compounds.
 ```
@@ -133,16 +144,16 @@ import pandas as pd
 final_model = joblib.load("XGBoost_Top51_model.pkl")
 
 # Load selected descriptor names
-with open("Top51_descriptors.txt", "r") as f:
+with open("top51_descriptors.txt", "r") as f:
     top_51_features = [line.strip() for line in f]
 
 # Load screening data and filtered data
 screening_data = pd.read_csv('screening_data.csv')
-screening_data_with_Top51_descriptors = screening_data[top_51_features]
+X = screening_data[top_51_features]
 
 # Predict probabilities and classes
-screening_data["Predicted_Probability"] = final_model.predict_proba(screening_data_with_Top51_descriptors)[:, 1]
-screening_data["Predicted_Class"] = final_model.predict(screening_data_with_Top51_descriptors)
+screening_data["Predicted_Probability"] = final_model.predict_proba(X)[:, 1]
+screening_data["Predicted_Class"] = final_model.predict(X)
 
 # Sort by predicted probability
 screening_df = screening_data[["Predicted_Probability", "Predicted_Class"]]
