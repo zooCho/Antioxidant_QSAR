@@ -1,21 +1,21 @@
 # QSAR Model for Predicting Antioxidant Activity
 
-This repository contains the full pipeline for developing five machine learning-based QSAR (Quantitative Structure–Activity Relationship) model to classify antioxidant compounds. The workflow includes data preprocessing, molecular descriptor calculation and processing, feature selection, model training, performance evaluation, and external validation using the ZINC Natural Products dataset with the final model.
+This repository contains the full pipeline for developing five machine learning–based QSAR (Quantitative Structure–Activity Relationship) models to classify antioxidant compounds. The workflow covers data preprocessing, molecular descriptor calculation & processing, feature selection, model training and evaluation, and external validation on the ZINC Natural Products dataset using the final model.
 
 ---
 ##  Project Overview
-- Objective: Build a robust binary classification model to predict antioxidant activity.
-- Approach: Train models on a balanced dataset via resampling, evaluate them using cross-validation and test set, and validate generalizability using external ZINC compounds.
+- Objective: Build a robust binary classifier for antioxidant activity.
+- Approach: Train on balanced datasets via resampling, evaluate with cross-validation & an independent test set, and assess generalizability using external ZINC compounds.
 - Techniques Used:
-  - Feature selection using Random Forest importance
-  - Extensive model evaluation (F1, MCC, AUC, Acc, Specificity)
-  - Additional validation for robustness testing
-    1. screening external compounds using the final model.
-    2. training and evaluating models without applying the resampling strategy.
+  - Random-Forest–based feature importance & elbow-point feature selection
+  - Multi-metric evaluation (F1, MCC, AUC, Accuracy, Specificity)
+  - Robustness checks
+    1. External screening on ZINC;
+    2. Training/Evaluation without resampling (imbalanced negative pool).
 - Dataset:
-  - Main data from SellechChem's libraries, including antioxidant compounds categorized as positive and non-antioxidant (negative) compounds.
-  - External data from ZINC Natural Products dataset
-- Final Model: "XGboost classifier with the Top 51 descriptors"  
+  - In-house libraries (SelleckChem): antioxidant (positive) vs. non-antioxidant (negative) compounds
+  - External: ZINC Natural Products
+- Final Model: **"XGboost classifier with the Top 51 descriptors"**
 ---
 
 ## Components Description
