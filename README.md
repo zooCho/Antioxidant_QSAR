@@ -33,13 +33,19 @@ This repository contains the full pipeline for developing five machine learning�
          - Data/02_Preprocessed/02_Filtered_metal_ions/filtered_only_neg_data_8443.smi : SMILES file of non-antioxidant compounds after removing metal ion-containing structures.
        - Calculated_descriptors
          - Data/02_Preprocessed/03_Calculated_descriptors/antioxi_des_776.csv : Molecular descriptors calculated from antioxidant compounds after filtering metal ions.
-         - Data/02_Preprocessed/03_Calculated_descriptors/negative_des_8443.csv : Molecular descriptors calculated from non-antioxidant compounds after filtering metal ions.
+         - ⚠️ **Large file ( >25MB )**
+         - "Data/02_Preprocessed/03_Calculated_descriptors/negative_des_8443.csv" is not hosted directly on GitHub due to file size limitations.
+           - Download from external storage: [Google Drive Link](https://drive.google.com/drive/folders/1GbRPbD5RtlXwouqbzk9PloXON6BpIn79?usp=drive_link) 
        - Processed_descriptors
          - Data/02_Preprocessed/04_Processed_descriptors/antioxidant_des_dupna_727.csv : Processed antioxidant descriptors after removing duplicates and NaN values.
-         - Data/02_Preprocessed/04_Processed_descriptors/negative_des_dupna_6677.csv : Processed non-antioxidant descriptors after removing duplicates and NaN values.
+         - ⚠️ **Large file ( >25MB )**
+         - "Data/02_Preprocessed/04_Processed_descriptors/negative_des_dupna_6677.csv" is not hosted directly on GitHub due to file size limitations.
+           - Download from external storage: [Google Drive Link](https://drive.google.com/drive/folders/1GbRPbD5RtlXwouqbzk9PloXON6BpIn79?usp=drive_link) 
        - Split_train_test
          - Data/02_Preprocessed/05_Split_train_test/train_pos_508.csv : Positive training set.
-         - Data/02_Preprocessed/05_Split_train_test/train_total_neg_6458.csv : Total negative training pool.
+         - ⚠️ **Large file ( >25MB )**
+         - "Data/02_Preprocessed/05_Split_train_test/train_total_neg_6458.csv" is not hosted directly on GitHub due to file size limitations. **(Total negative training pool)**
+           - Download from external storage: [Google Drive Link](https://drive.google.com/drive/folders/1GbRPbD5RtlXwouqbzk9PloXON6BpIn79?usp=drive_link) 
          - Data/02_Preprocessed/05_Split_train_test/test_set_438.csv : Independent test set for model evaluation.
    - Model_training
        - Data_load
@@ -55,9 +61,14 @@ This repository contains the full pipeline for developing five machine learning�
        - Filtered_metal_ions
          - Data/04_External_validation/02_Filtered_metal_ions/ZINC_Natural_Products_ADMET_filtered.smi : ZINC dataset after filtering out compounds containing metal ions.
        - Calculated_descriptors
-         - Data/04_External_validation/03_Calculated_descriptors/ZINC_external_des_5810.csv : Molecular descriptors calculated from the cleaned ZINC dataset.
+         - ⚠️ **Large file ( >25MB )**
+         - "Data/04_External_validation/03_Calculated_descriptors/ZINC_external_des_5810.csv" is not hosted directly on GitHub due to file size limitations.  
+           - Download from external storage: [Google Drive Link](https://drive.google.com/drive/folders/1GbRPbD5RtlXwouqbzk9PloXON6BpIn79?usp=drive_link)  
        - Processed_descriptors
-         - Data/04_External_validation/04_Processed_descriptors/ZINC_external_5790.csv : Final processed descriptor dataset after removing duplicates and NaN values.
+         - ⚠️ **Large file ( >25MB )**
+         - "Data/04_External_validation/04_Processed_descriptors/ZINC_external_5790.csv" is not hosted directly on GitHub due to file size limitations.
+         - :Final processed descriptor dataset after removing duplicates and NaN values.
+           - Download from external storage: [Google Drive Link](https://drive.google.com/drive/folders/1GbRPbD5RtlXwouqbzk9PloXON6BpIn79?usp=drive_link) 
        - Validation_final_model
          - Data/04_External_validation/05_Validation_final_model/ZINC_external_predictions_XGB51.csv : Prediction results from the final model (XGBoost Top51) applied to the ZINC dataset.  
    - Without_resampled_strategy
@@ -162,3 +173,10 @@ screening_df = screening_df.sort_values(by="Predicted_Probability", ascending=Fa
 # Save results
 screening_df.to_csv("Screening_predictions_XGB51.csv")
 ```
+
+## Releases & Data Availability
+- Due to GitHub’s 25MB file size limitation, large datasets such as  
+  `negative_des_8443.csv & negative_des_dupna_6677.csv & train_total_neg_6458.csv & ZINC_external_des_5810.csv & ZINC_external_5790.csv` are hosted externally on Google Drive.
+- Users can download the file via the provided link.
+- Only essential processed data and results are included in this repository.  
+- Full reproducibility is guaranteed since intermediate files can be regenerated using the provided notebooks and raw input data.
