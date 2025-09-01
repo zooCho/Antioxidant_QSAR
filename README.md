@@ -18,10 +18,9 @@ This repository contains the full pipeline for developing five machine learning�
 - Final Model: **"XGboost classifier with the Top 51 descriptors"**
 ---
 
-## Data Availability Policy  
-Due to the file size limit of GitHub and license restrictions of third-party databases (e.g., SelleckChem, ZINC),  
-⚠️ Note: Raw datasets from SelleckChem cannot be redistributed due to license restrictions.
-Please download them directly from the official sources: (https://www.selleckchem.com)
+## Data Availability Policy   
+⚠️ Note: Raw datasets from SelleckChem cannot be redistributed due to license restrictions. Please download them directly from the official sources: (https://www.selleckchem.com).
+
 The positive dataset consists of antioxidant compounds (**Positive**) sourced from **Antioxidant-Compound-Library-96-well.xlsx**. 
 Since these compounds are also included within the broader **Bioactive-Compound-Library-I-96-well.xlsx**, we define the negative set by subtracting the positive compounds from the total bioactive library.
 
