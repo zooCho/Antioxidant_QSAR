@@ -1,0 +1,11 @@
+,rf__max_depth,rf__max_features,rf__min_samples_leaf,rf__min_samples_split,rf__n_estimators,svm__C,svm__gamma,svm__kernel,xgb__colsample_bytree,xgb__learning_rate,xgb__max_depth,xgb__min_child_weight,xgb__n_estimators,xgb__reg_lambda,xgb__subsample,lr__C,mlp__activation,mlp__alpha,mlp__early_stopping,mlp__hidden_layer_sizes,mlp__learning_rate,mlp__learning_rate_init,mlp__max_iter,mlp__solver
+Random Forest_Top51,,sqrt,4.0,2.0,200.0,,,,,,,,,,,,,,,,,,,
+Random Forest_Top79,10.0,sqrt,4.0,2.0,200.0,,,,,,,,,,,,,,,,,,,
+SVM_Top51,,,,,,1.0,scale,linear,,,,,,,,,,,,,,,,
+SVM_Top79,,,,,,0.1,scale,linear,,,,,,,,,,,,,,,,
+XGBoost_Top51,,,,,,,,,0.8,0.01,3.0,1.0,200.0,1.0,0.7,,,,,,,,,
+XGBoost_Top79,,,,,,,,,0.8,0.01,3.0,1.0,200.0,3.0,0.7,,,,,,,,,
+Logistic Regression_Top51,,,,,,,,,,,,,,,,10.0,,,,,,,,
+Logistic Regression_Top79,,,,,,,,,,,,,,,,0.01,,,,,,,,
+MLP_Top51,,,,,,,,,,,,,,,,,relu,0.001,True,"(128, 64, 32)",constant,0.001,200.0,adam
+MLP_Top79,,,,,,,,,,,,,,,,,tanh,0.0001,True,"(128, 64, 32)",constant,0.0005,200.0,adam
