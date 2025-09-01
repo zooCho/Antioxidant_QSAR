@@ -18,65 +18,41 @@ This repository contains the full pipeline for developing five machine learning�
 - Final Model: **"XGboost classifier with the Top 51 descriptors"**
 ---
 
-## Data 
-### 1. Data Availability Policy
+## Data Availability Policy  
 Due to the file size limit of GitHub and license restrictions of third-party databases (e.g., SelleckChem, ZINC),  
-**only essential and lightweight files are included in this repository.**  
-   - Raw data
-       - Data/01_Raw/20231011-L6500-Antioxidant-Compound-Library-96-well.xlsx : known antioxidant compounds ( positive).
-       - Data/01_Raw/20240327-L1700-Bioactive-Compound-Library-I-96-well.xlsx : Bioactive compounds with unknown antioxidant activity (negative).
+⚠️ Note: Raw datasets from SelleckChem cannot be redistributed due to license restrictions.
+Please download them directly from the official sources: (https://www.selleckchem.com)
+The positive dataset consists of antioxidant compounds (**Positive**) sourced from **Antioxidant-Compound-Library-96-well.xlsx**. 
+Since these compounds are also included within the broader **Bioactive-Compound-Library-I-96-well.xlsx**, we define the negative set by subtracting the positive compounds from the total bioactive library.
+
+### 1. Data
+   - Raw 
+       - Data/01_Raw/antioxi_data_817.smi : known antioxidant compounds ( positive).
+       - Data/01_Raw/total_data_9972.smi : Bioactive compounds with unknown antioxidant activity (negative).
        - Data/01_Raw/ZINC_Natural_Products_ADMET_9644.smi : ZINC Natural Products dataset used for external validation.
    - Preprocessed Data
        - Remove_duplication_NaN
-         - Data/02_Processed/01_Input/antioxi_data_802.smi : SMILES file containing antioxidant compounds (positive set) after removing duplicates and NaN values, used for descriptor calculation.
-         - Data/02_Processed/01_Input/only_neg_data_8898.smi : SMILES file containing non-antioxidant compounds (negative set) after removing duplicates and NaN values, used for descriptor calculation.
+         - Data/02_Processed/01_Remove_duplication_NaN/antioxi_data_802.smi : SMILES file containing antioxidant compounds (positive set) after removing duplicates and NaN values, used for descriptor calculation.
+         - Data/02_Processed/01_Remove_duplication_NaN/only_neg_data_8898.smi : SMILES file containing non-antioxidant compounds (negative set) after removing duplicates and NaN values, used for descriptor calculation.
+         - Data/02_Processed/01_Remove_duplication_NaN/ZINC_Natural_Products_ADMET_5810.smi : ZINC Natural Products ADMET dataset after removing duplicates and NaN values.
        - Filtered_metal_ions
          - Data/02_Preprocessed/02_Filtered_metal_ions/filtered_antioxi_data_776.smi : SMILES file of antioxidant compounds after removing metal ion-containing structures.
          - Data/02_Preprocessed/02_Filtered_metal_ions/filtered_only_neg_data_8443.smi : SMILES file of non-antioxidant compounds after removing metal ion-containing structures.
-       - Calculated_descriptors
-         - Data/02_Preprocessed/03_Calculated_descriptors/antioxi_des_776.csv : Molecular descriptors calculated from antioxidant compounds after filtering metal ions.
-         - ⚠️ **Large file ( >25MB )**
-         - "Data/02_Preprocessed/03_Calculated_descriptors/negative_des_8443.csv" is not hosted directly on GitHub due to file size limitations.
-           - Download from external storage: [Google Drive Link](https://drive.google.com/drive/folders/1GbRPbD5RtlXwouqbzk9PloXON6BpIn79?usp=drive_link) 
-       - Processed_descriptors
-         - Data/02_Preprocessed/04_Processed_descriptors/antioxidant_des_dupna_727.csv : Processed antioxidant descriptors after removing duplicates and NaN values.
-         - ⚠️ **Large file ( >25MB )**
-         - "Data/02_Preprocessed/04_Processed_descriptors/negative_des_dupna_6677.csv" is not hosted directly on GitHub due to file size limitations.
-           - Download from external storage: [Google Drive Link](https://drive.google.com/drive/folders/1GbRPbD5RtlXwouqbzk9PloXON6BpIn79?usp=drive_link) 
-       - Split_train_test
-         - Data/02_Preprocessed/05_Split_train_test/train_pos_508.csv : Positive training set.
-         - ⚠️ **Large file ( >25MB )**
-         - "Data/02_Preprocessed/05_Split_train_test/train_total_neg_6458.csv" is not hosted directly on GitHub due to file size limitations. **(Total negative training pool)**
-           - Download from external storage: [Google Drive Link](https://drive.google.com/drive/folders/1GbRPbD5RtlXwouqbzk9PloXON6BpIn79?usp=drive_link) 
-         - Data/02_Preprocessed/05_Split_train_test/test_set_438.csv : Independent test set for model evaluation.
+         - Data/02_Preprocessed/02_Filtered_metal_ions/ZINC_Natural_Products_ADMET_filtered.smi : ZINC dataset after filtering out compounds containing metal ions.
+       - Feature_selection
+         - top_51_features.txt : The final selected top 51 descriptors.
    - Model_training
        - Data_load
-         - Data/03_Model_training/01_Data_load/train_new_neg_508.csv : Randomly sampled 508 negative compounds from the total negative pool.
+         - Data/03_Model_training/01_Data_load/test_set_438.csv 
          - Data/03_Model_training/01_Data_load/train_cls_1016.csv : Combined dataset of 508 positive compounds and 508 newly sampled negative compounds. 
        - Output
          - Data/03_Model_training/02_Output/best_hyperparameters.csv : Optimal hyperparameters for each machine learning model.
          - Data/03_Model_training/02_Output/performance_scores.csv : Performance metrics (Accuracy, AUC, F1-score, MCC, Specificity) for each model.
-         - Data/03_Model_training/02_Output/Top51_Descriptors.txt : The final selected top 51 descriptors.
-   - External_validation
-       - Remove_duplication_NaN
-         - Data/04_External_validation/01_Remove_duplication_NaN/ZINC_Natural_Products_ADMET_5810.smi : ZINC Natural Products ADMET dataset after removing duplicates and NaN values.
-       - Filtered_metal_ions
-         - Data/04_External_validation/02_Filtered_metal_ions/ZINC_Natural_Products_ADMET_filtered.smi : ZINC dataset after filtering out compounds containing metal ions.
-       - Calculated_descriptors
-         - ⚠️ **Large file ( >25MB )**
-         - "Data/04_External_validation/03_Calculated_descriptors/ZINC_external_des_5810.csv" is not hosted directly on GitHub due to file size limitations.  
-           - Download from external storage: [Google Drive Link](https://drive.google.com/drive/folders/1GbRPbD5RtlXwouqbzk9PloXON6BpIn79?usp=drive_link)  
-       - Processed_descriptors
-         - ⚠️ **Large file ( >25MB )**
-         - "Data/04_External_validation/04_Processed_descriptors/ZINC_external_5790.csv" is not hosted directly on GitHub due to file size limitations.
-         - :Final processed descriptor dataset after removing duplicates and NaN values.
-           - Download from external storage: [Google Drive Link](https://drive.google.com/drive/folders/1GbRPbD5RtlXwouqbzk9PloXON6BpIn79?usp=drive_link) 
-       - Validation_final_model
-         - Data/04_External_validation/05_Validation_final_model/ZINC_external_predictions_XGB51.csv : Prediction results from the final model (XGBoost Top51) applied to the ZINC dataset.  
+         - Data/03_Model_training/02_Output/ZINC_external_predictions_XGB51.csv : Prediction results from the final model (XGBoost Top51) applied to the ZINC dataset.  
    - Without_resampled_strategy
        - Output
-         - Data/05_Without_resampled_strategy/01_Output/best_hyperparameters_with_rawdata.csv : Best hyperparameters obtained using the full unbalanced dataset (without resampling).
-         - Data/05_Without_resampled_strategy/01_Output/performance_scores_with_rawdata.csv : Performance metrics from training without resampling strategy for robustness testing.
+         - Data/04_Without_resampled_strategy/01_Output/best_hyperparameters_with_rawdata.csv : Best hyperparameters obtained using the full unbalanced dataset (without resampling).
+         - Data/04_Without_resampled_strategy/01_Output/performance_scores_with_rawdata.csv : Performance metrics from training without resampling strategy for robustness testing.
 ### 2. Model
   - XGBoost_Top51_model.pkl :
     - Final trained model (XGBoost classifier with Top 51 selected descriptors) used for prediction and external validation.
@@ -93,6 +69,8 @@ Due to the file size limit of GitHub and license restrictions of third-party dat
 ```
 pip install -r Requirements.txt
 ```
+  - Python ≥ 3.9
+  - Java Runtime Environment (JRE) ≥ 11 (for PaDEL-Descriptor)
   - The required library dependencies for this project are listed below:
 ```
 pandas==2.2.3
@@ -105,11 +83,8 @@ matplotlib==3.7.1
 joblib==1.2.0
 openpyxl==3.1.5
 padelpy==0.1.16
-java==11.0.27
-python==3.13.1
 seaborn==0.13.2
 statsmodels==0.14.4
-standardscaler==0.5
 ```
 **Note:**
 - **PadelPy** requires Java Runtime Environment (JRE) to be installed on your system.
@@ -176,9 +151,7 @@ screening_df = screening_df.sort_values(by="Predicted_Probability", ascending=Fa
 screening_df.to_csv("Screening_predictions_XGB51.csv")
 ```
 
-## Releases & Data Availability
-- Due to GitHub’s 25MB file size limitation, large datasets such as  
-  `negative_des_8443.csv & negative_des_dupna_6677.csv & train_total_neg_6458.csv & ZINC_external_des_5810.csv & ZINC_external_5790.csv` are hosted externally on Google Drive.
+## Releases 
 - Users can download the file via the provided link.
 - Only essential processed data and results are included in this repository.  
-- Full reproducibility is guaranteed since intermediate files can be regenerated using the provided notebooks and raw input data.
+- These files can be **re-generated** by following the provided Jupyter notebooks, ensuring reproducibility of the entire workflow.  
