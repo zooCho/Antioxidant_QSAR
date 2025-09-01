@@ -18,8 +18,10 @@ This repository contains the full pipeline for developing five machine learningâ
 - Final Model: **"XGboost classifier with the Top 51 descriptors"**
 ---
 
-## Components Description
-### 1. Data
+## Data 
+### 1. Data Availability Policy
+Due to the file size limit of GitHub and license restrictions of third-party databases (e.g., SelleckChem, ZINC),  
+**only essential and lightweight files are included in this repository.**  
    - Raw data
        - Data/01_Raw/20231011-L6500-Antioxidant-Compound-Library-96-well.xlsx : known antioxidant compounds ( positive).
        - Data/01_Raw/20240327-L1700-Bioactive-Compound-Library-I-96-well.xlsx : Bioactive compounds with unknown antioxidant activity (negative).
