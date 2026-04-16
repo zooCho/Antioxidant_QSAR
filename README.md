@@ -47,7 +47,8 @@ Since these compounds are also included within the broader **Bioactive-Compound-
        - Output
          - Data/03_Model_training/02_Output/best_hyperparameters.csv : Optimal hyperparameters for each machine learning model.
          - Data/03_Model_training/02_Output/performance_scores.csv : Performance metrics (Accuracy, AUC, F1-score, MCC, Specificity) for each model.
-         - Data/03_Model_training/02_Output/ZINC_external_predictions_XGB51.csv : Prediction results from the final model (XGBoost Top51) applied to the ZINC dataset.  
+         - Data/03_Model_training/02_Output/ZINC_external_predictions_XGB51.csv : Prediction results from the final model (XGBoost Top51) applied to the ZINC dataset.
+         - Data/03_Model_training/02_Output/ZINC_external_5%_predictions_XGB51.csv : Top5% of ZINC dataset predicted as positive by the final model (XGBoost Top51). 
    - Without_resampled_strategy
        - Output
          - Data/04_Without_resampled_strategy/01_Output/best_hyperparameters_with_rawdata.csv : Best hyperparameters obtained using the full unbalanced dataset (without resampling).
@@ -63,14 +64,25 @@ Since these compounds are also included within the broader **Bioactive-Compound-
 ---
 
 ## How to Run
-### 1. Environment Setup
-- Install the required Python libraries:
+### 🛠️ 1.Installation
+```bash
+# Clone the repo
+git clone https://github.com/zooCho/Antioxidant_QSAR.git
+cd Antioxidant_QSAR
+
+# (Optional) create a virtual environment
+python -m venv env
+source env/bin/activate   # Windows: env\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
 ```
-pip install -r Requirements.txt
-```
-  - Python ≥ 3.9
-  - Java Runtime Environment (JRE) ≥ 11 (for PaDEL-Descriptor)
-  - The required library dependencies for this project are listed below:
+> **Prerequisite:** Java Runtime Environment (JRE ≥ 11) is required for PaDEL‑Descriptor.  
+> Verify with `java -version`. Install if missing:
+> - **Linux:** `sudo apt-get install default-jre`
+> - **Windows:** Download from <https://www.java.com>.
+
+---
 ```
 pandas==2.2.3
 numpy==2.2.2
@@ -112,6 +124,7 @@ and **external validation using the ZINC Natural Products dataset** with the fin
   -  best_hyperparameters.csv, performance_scores.csv
   -  XGBoost_Top51_model.pkl
   -  ZINC_external_predictions_XGB51.csv
+  -  ZINC_external_5%_predictions_XGB51.csv
   
 ### 5. Validation without resampled strategy
 Alternative validation strategy where the model is trained and evaluated **without resampling**, using the entire negative pool directly.  
