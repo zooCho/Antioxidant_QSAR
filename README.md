@@ -64,13 +64,13 @@ Since these compounds are also included within the broader **Bioactive-Compound-
 ---
 
 ## How to Run
-### 🛠️ 1.Installation
+### 🛠️ 1. Installation
 ```bash
 # Clone the repo
 git clone https://github.com/zooCho/Antioxidant_QSAR.git
 cd Antioxidant_QSAR
 
-# (Optional) create a virtual environment
+# (Optional) Create a virtual environment
 python -m venv env
 source env/bin/activate   # Windows: env\Scripts\activate
 
@@ -85,17 +85,16 @@ pip install -r requirements.txt
 ---
 ```
 pandas==2.2.3
-numpy==2.2.2
+numpy==2.2.3
 matplotlib==3.10.0
 scikit-learn==1.6.1
+umap-learn==0.5.7
 kneed==0.8.5
+tqdm==4.67.1
 xgboost==2.1.4
-matplotlib==3.7.1
-joblib==1.2.0
 openpyxl==3.1.5
 padelpy==0.1.16
 seaborn==0.13.2
-statsmodels==0.14.4
 ```
 **Note:**
 - **PadelPy** requires Java Runtime Environment (JRE) to be installed on your system.
@@ -114,7 +113,7 @@ Preprocessing of raw data, removal of duplicates/NaN, filtering metal-containing
 ### 3. Feature Selection
 Feature importance calculation using Random Forest and selection of optimal descriptor subsets via elbow-point method.
 - Run: Notebooks/02_Feature_selection.ipynb
-- Output: Top51_descriptors.txt
+- Output: top51_features.txt
 
 ### 4. Model Training & Validation (+ ZINC external)
 Model training and evaluation with resampled datasets, including hyperparameter optimization, performance assessment (ACC, AUC, F1, MCC, Specificity),  
@@ -144,7 +143,7 @@ import pandas as pd
 final_model = joblib.load("XGBoost_Top51_model.pkl")
 
 # Load selected descriptor names
-with open("top51_descriptors.txt", "r") as f:
+with open("top51_features.txt", "r") as f:
     top_51_features = [line.strip() for line in f]
 
 # Load screening data and filtered data
