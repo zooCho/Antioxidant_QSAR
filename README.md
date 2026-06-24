@@ -31,15 +31,15 @@ Since these compounds are also included within the broader **Bioactive-Compound-
        - Data/01_Raw/ZINC_Natural_Products_ADMET_9644.smi : ZINC Natural Products dataset used for external validation.
    - Preprocessed Data
        - Remove_duplication_NaN
-         - Data/02_Processed/01_Remove_duplication_NaN/antioxi_data_802.smi : SMILES file containing antioxidant compounds (positive set) after removing duplicates and NaN values, used for descriptor calculation.
-         - Data/02_Processed/01_Remove_duplication_NaN/only_neg_data_8898.smi : SMILES file containing non-antioxidant compounds (negative set) after removing duplicates and NaN values, used for descriptor calculation.
-         - Data/02_Processed/01_Remove_duplication_NaN/ZINC_Natural_Products_ADMET_5810.smi : ZINC Natural Products ADMET dataset after removing duplicates and NaN values.
+         - Data/02_Preprocessed/01_Remove_duplication_NaN/antioxi_data_802.smi : SMILES file containing antioxidant compounds (positive set) after removing duplicates and NaN values, used for descriptor calculation.
+         - Data/02_Preprocessed/01_Remove_duplication_NaN/only_neg_data_8898.smi : SMILES file containing non-antioxidant compounds (negative set) after removing duplicates and NaN values, used for descriptor calculation.
+         - Data/02_Preprocessed/01_Remove_duplication_NaN/ZINC_Natural_Products_ADMET_5810.smi : ZINC Natural Products ADMET dataset after removing duplicates and NaN values.
        - Filtered_metal_ions
          - Data/02_Preprocessed/02_Filtered_metal_ions/filtered_antioxi_data_776.smi : SMILES file of antioxidant compounds after removing metal ion-containing structures.
          - Data/02_Preprocessed/02_Filtered_metal_ions/filtered_only_neg_data_8443.smi : SMILES file of non-antioxidant compounds after removing metal ion-containing structures.
          - Data/02_Preprocessed/02_Filtered_metal_ions/ZINC_Natural_Products_ADMET_filtered.smi : ZINC dataset after filtering out compounds containing metal ions.
        - Feature_selection
-         - top_51_features.txt : The final selected top 51 descriptors.
+         - Data/02_preprocessed/03_Feature_selection/top_51_features.txt : The final selected top 51 descriptors.
    - Model_training
        - Data_load
          - Data/03_Model_training/01_Data_load/test_set_438.csv 
@@ -128,7 +128,7 @@ and **external validation using the ZINC Natural Products dataset** with the fin
 ### 5. Validation without resampled strategy
 Alternative validation strategy where the model is trained and evaluated **without resampling**, using the entire negative pool directly.  
 This test ensures the robustness of the proposed resampling strategy by comparing performance under unbalanced conditions.
-- Run: Notebooks/04_Validation_without_Resampled.ipynb
+- Run: Notebooks/04_Validation_without_resampled.ipynb
 - Outputs:
   - best_hyperparameters_with_rawdata.csv
   - performance_scores_with_rawdata.csv
