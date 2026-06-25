@@ -39,7 +39,7 @@ Since these compounds are also included within the broader **Bioactive-Compound-
          - Data/02_Preprocessed/02_Filtered_metal_ions/filtered_only_neg_data_8443.smi : SMILES file of non-antioxidant compounds after removing metal ion-containing structures.
          - Data/02_Preprocessed/02_Filtered_metal_ions/ZINC_Natural_Products_ADMET_filtered.smi : ZINC dataset after filtering out compounds containing metal ions.
        - Feature_selection
-         - Data/02_preprocessed/03_Feature_selection/top_51_features.txt : The final selected top 51 descriptors.
+         - Data/02_Preprocessed/03_Feature_selection/top_51_features.txt : The final selected top 51 descriptors.
    - Model_training
        - Data_load
          - Data/03_Model_training/01_Data_load/test_set_438.csv 
@@ -54,7 +54,7 @@ Since these compounds are also included within the broader **Bioactive-Compound-
          - Data/04_Without_resampled_strategy/01_Output/best_hyperparameters_with_rawdata.csv : Best hyperparameters obtained using the full unbalanced dataset (without resampling).
          - Data/04_Without_resampled_strategy/01_Output/performance_scores_with_rawdata.csv : Performance metrics from training without resampling strategy for robustness testing.
 ### 2. Model
-  - XGBoost_Top51_model.pkl :
+  - Model/XGBoost_Top51_model.pkl :
     - Final trained model (XGBoost classifier with Top 51 selected descriptors) used for prediction and external validation.
 ### 3. Notebooks
   - 01_Data_preprocessing&Resampling.ipynb
@@ -96,15 +96,6 @@ openpyxl==3.1.5
 padelpy==0.1.16
 seaborn==0.13.2
 ```
-**Note:**
-- **PadelPy** requires Java Runtime Environment (JRE) to be installed on your system.
-- To check Java installation:
-```
-    java -version
-```
-- If Java is not installed:
-  - **Linux**:`sudo apt-get install default-jre` 
-  - **Windows**: Download from Java.com
 
 ### 2. Data preprocessing & Resampling
 Preprocessing of raw data, removal of duplicates/NaN, filtering metal-containing compounds, calculating molecular descriptors, and generating balanced training sets through resampling.
@@ -113,25 +104,26 @@ Preprocessing of raw data, removal of duplicates/NaN, filtering metal-containing
 ### 3. Feature Selection
 Feature importance calculation using Random Forest and selection of optimal descriptor subsets via elbow-point method.
 - Run: Notebooks/02_Feature_selection.ipynb
-- Output: top51_features.txt
+- Output: Data/02_Preprocessed/03_Feature_selection/top_51_features.txt
 
 ### 4. Model Training & Validation (+ ZINC external)
 Model training and evaluation with resampled datasets, including hyperparameter optimization, performance assessment (ACC, AUC, F1, MCC, Specificity),  
 and **external validation using the ZINC Natural Products dataset** with the final XGBoost_Top51 model.
 - Run: Notebooks/03_Model_training_validation.ipynb
 - Outputs:
-  -  best_hyperparameters.csv, performance_scores.csv
-  -  XGBoost_Top51_model.pkl
-  -  ZINC_external_predictions_XGB51.csv
-  -  ZINC_external_5%_predictions_XGB51.csv
+  - Data/03_Model_training/02_Output/best_hyperparameters.csv
+  - Data/03_Model_training/02_Output/performance_scores.csv
+  - Model/XGBoost_Top51_model.pkl
+  - Data/03_Model_training/02_Output/ZINC_external_predictions_XGB51.csv
+  - Data/03_Model_training/02_Output/ZINC_external_5%_predictions_XGB51.csv
   
 ### 5. Validation without resampled strategy
 Alternative validation strategy where the model is trained and evaluated **without resampling**, using the entire negative pool directly.  
 This test ensures the robustness of the proposed resampling strategy by comparing performance under unbalanced conditions.
 - Run: Notebooks/04_Validation_without_resampled.ipynb
 - Outputs:
-  - best_hyperparameters_with_rawdata.csv
-  - performance_scores_with_rawdata.csv
+  - Data/04_Without_resampled_strategy/01_Output/best_hyperparameters_with_rawdata.csv
+  - Data/04_Without_resampled_strategy/01_Output/performance_scores_with_rawdata.csv
 
 ### 6. Compound Screening
 Use the trained model to screen new compounds.
@@ -140,10 +132,10 @@ import joblib
 import pandas as pd
 
 # Load saved model
-final_model = joblib.load("XGBoost_Top51_model.pkl")
+final_model = joblib.load("Model/XGBoost_Top51_model.pkl")
 
 # Load selected descriptor names
-with open("top51_features.txt", "r") as f:
+with open("Data/02_Preprocessed/03_Feature_selection/top_51_features.txt", "r") as f:
     top_51_features = [line.strip() for line in f]
 
 # Load screening data and filtered data
