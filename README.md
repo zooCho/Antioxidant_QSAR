@@ -1,5 +1,8 @@
 # QSAR Model for Predicting Antioxidant Activity
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21017769.svg)]
+(https://doi.org/10.5281/zenodo.21017769)
+
 This repository contains the full pipeline for developing five machine learning–based QSAR (Quantitative Structure–Activity Relationship) models to classify antioxidant compounds. The workflow covers data preprocessing, molecular descriptor calculation & processing, feature selection, model training and evaluation, and external validation on the ZINC Natural Products dataset using the final model.
 
 ---
